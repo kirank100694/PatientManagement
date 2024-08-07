@@ -24,7 +24,7 @@ namespace PatientManagement.Controllers
             var patients = await _patientRepository.GetAllPatientAsync();
             if (patients == null)
             {
-                return NotFound();
+                return BadRequest("Please Add Patient");
             }
 
             return Ok(patients);
