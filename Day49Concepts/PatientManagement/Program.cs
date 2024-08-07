@@ -16,6 +16,8 @@ namespace PatientManagement
             builder.Services.AddDbContext<PatientContext>
                 (options => options.UseSqlServer(builder.Configuration.GetConnectionString("PatientManagmentDB")));
 
+            builder.Services.AddAutoMapper(typeof(Program));
+
             builder.Services.AddTransient<IPatientRepository, PatientRepository>();
 
             builder.Services.AddControllers().AddNewtonsoftJson();

@@ -19,9 +19,13 @@ namespace PatientManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEmployees()
+        public async Task<IActionResult> GetAllPatient()
         {
             var patients = await _patientRepository.GetAllPatientAsync();
+            if (patients == null)
+            {
+                return NotFound();
+            }
 
             return Ok(patients);
         }
@@ -39,7 +43,7 @@ namespace PatientManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewPatient([FromBody] Patient patient)
+        public async Task<IActionResult> AddPatient([FromBody] Patient patient)
         {
             var patients = await _patientRepository.AddPetientAsync(patient);
 
@@ -50,6 +54,10 @@ namespace PatientManagement.Controllers
         public async Task<IActionResult> UpdatePatients([FromBody] Patient patient, [FromRoute] int Id)
         {
             await _patientRepository.UpdatePatientAsync(Id, patient);
+            if(patient == null)
+            {
+                return BadRequest("Please provide Patient details");
+            }
 
             return Ok(true);
         }
@@ -58,8 +66,26 @@ namespace PatientManagement.Controllers
         public async Task<IActionResult> UpdatePatientPatch([FromBody] JsonPatchDocument patient, [FromRoute] int Id)
         {
             await _patientRepository.UpdatePatientPatchAsync(Id, patient);
+            if(patient == null)
+            {
+                return BadRequest("Remove is not allowed");
+            }
 
             return Ok(true);
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeletePatient([FromRoute] int Id)
+        {
+            await _patientRepository.DeletePatientAsync(Id);
+            if (Id != 0)
+            {
+                return BadRequest("Please provide valid result");
+            }
+
+            return Ok(true);
+
+            
         }
     }
 }

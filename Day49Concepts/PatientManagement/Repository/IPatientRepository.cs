@@ -10,5 +10,6 @@ namespace PatientManagement.Repository
         Task<int> AddPetientAsync(Patient patient);
         Task UpdatePatientAsync(int petinetId, Patient petient);
         Task UpdatePatientPatchAsync(int patientId, JsonPatchDocument patient);
+        Task DeletePatientAsync(int PatientId);
     }
 }
